@@ -277,12 +277,12 @@ class Board:
 
 
 class Fences:
-    """This class represents actions/ features that both the Player1 and Player2 class share.
-        Most notably is the data member holding the fence positions in the game. Since it does not
-        matter whose fence belongs to who when moving in the board, it makes the most sense to combine
-        the positions for each player in this manner. This class will communicate with its child classes,
-        Player1 and Player2, since the object of Player is mainly meant to be an extension of the two without
-        the need of rewriting it for the other class. """
+    """
+    This a data class used to represent Fences in the QuoridorGame. An instance of this object will be created 
+    when an instance of the QuoridorGame is created. This class becomes a data member of the QuoridorGame
+    via Composition. Class is mainly used to get and set fences in the QuoridorGame. Fence class also has a method
+    that is used to check if the position and coordinate of a fence is available for a player to place. 
+    """
 
     def __init__(self):
         """initializes the object player. Player initializes the values player1, player2
