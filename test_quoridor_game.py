@@ -280,7 +280,7 @@ class TestClass:
         assert bool is False
 
     def test_twenty_three(self):
-        """If a player attempts to move out of range, they will run into s"""
+        """If a player attempts to move out of range, we should return False"""
         q = QuoridorGame()
         q.move_pawn(1, (3, 0))
         q. move_pawn(2, (4, 7))
