@@ -19,8 +19,8 @@ class QuoridorGame:
             and is_winner data members. """
         self.board = Board()
         self.fences = Fences()
-        self.player1 = Player1(1)
-        self.player2 = Player2(2)
+        self.player1 = Player1()
+        self.player2 = Player2()
         self.switch_player = 1
         self.game_not_won = True
         self.starting_board()
@@ -45,7 +45,7 @@ class QuoridorGame:
             if player.get_num_of_pawns_on_board() > 1:
                 player.increment_num_of_pawns(-1)
                 self.board.remove_old_player_position(prev)
-        self.board.set_player_in_board(matrix_position, player)
+        self.board.set_player_in_board(matrix_position, player_num)
         player.set_player_coordinates(new_coordinates)
         self.switch_player = 2 if player_num == 1 else 1
         return
@@ -74,12 +74,10 @@ class QuoridorGame:
         # initialize player 1
         self.board.valid_moves((4, 0), fences, self.player1)
         self.update_players_position((4, 0), 1)
-        self.player1.set_winning_coordinates()
 
         # initialize player 2
         self.board.valid_moves((4, 8), fences, self.player2)
         self.update_players_position((4, 8), 2)
-        self.player2.set_winning_coordinates()
 
         return True
 
@@ -357,16 +355,14 @@ class QuoridorPlayer:
     Methods either alters (basic CRUD) or retrieves the data for the Player object. 
      """
 
-    def __init__(self, player):
+    def __init__(self):
         """method creates a player object. Method creates an object with a list of moves a player may take,
         the number representing player 2, the coordinates for player 2, the number of pawns on the board for player 2,
         the number of fences player 2 has."""
         self.list_of_valid_moves = []
-        self.player_pawn = player
         self.coordinates = None
         self.pawns_on_board = 0
         self.fences_available = 10
-        self.winning_coordinates = []
 
     def get_num_of_pawns_on_board(self):
         """returns the number of pawns in the board."""
@@ -409,44 +405,26 @@ class QuoridorPlayer:
         is_winner will be set to True. Once this data member is set to true, the game is over."""
         return self.winning_coordinates
 
-    def set_winning_coordinates(self):
-        """winning coordinates are unique to the player; therefore, when inheriting from this parent class, child-class should have a method 
-        including the winning coordinates for that specific player. NOTE: winning coordinates include all the coordinates in an opponents baseline on the opposite
-        side of the board. """
-        pass
-
 
 class Player1(QuoridorPlayer):
     """The Player1 class is primarily responsible for updating and recording
         data that belongs to player 1. Class inherits data and methods from the Player Class.
         """
 
-    def __init__(self, player):
-        super().__init__(player)
-
-    def set_winning_coordinates(self):
-        """method is called at the starting board method in the QuoridorGame class,
-        method sets the winning coordinates for player 1. If current coordinate for player 1 is in the list
-        of winning coordinates, then player 1 wins."""
-        for number in range(0, 9):
-            self.winning_coordinates.append((number, 8))
-        return self.winning_coordinates
+    def __init__(self):
+        super().__init__()
+        self.player_pawn = 1
+        self.winning_coordinates = {(col, 8) for col in range(9)}
 
 
 class Player2(QuoridorPlayer):
     """The Player2 class is primarily responsible for updating and recording data that
         belongs to player 2. Class inherits data and methods from the Player Class. """
 
-    def __init__(self, player):
-        super().__init__(player)
-
-    def set_winning_coordinates(self):
-        """method is called at the starting board method in the QuoridorGame class,
-        method sets the winning coordinates for player 2. If current coordinate for player 2 is in the list
-        of winning coordinates, then player 2 wins."""
-        for number in range(0, 9):
-            self.winning_coordinates.append((number, 0))
-        return self.winning_coordinates
+    def __init__(self):
+        super().__init__()
+        self.player_pawn = 2
+        self.winning_coordinates = {(col, 0) for col in range(9)}
 
 
 def main():

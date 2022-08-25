@@ -50,6 +50,7 @@ coverage.xml
 *.py,cover
 .hypothesis/
 cover/
+.vscode
 
 # Translations
 *.mo
